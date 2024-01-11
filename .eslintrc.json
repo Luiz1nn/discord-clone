@@ -5,6 +5,7 @@
   ],
   "rules": {
     "camelcase": "off",
-    "no-var": "off"
+    "no-var": "off",
+    "@typescript-eslint/no-empty-function": "off"
   }
 }
