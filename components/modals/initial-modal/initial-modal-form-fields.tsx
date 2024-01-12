@@ -6,8 +6,8 @@ import {
   FormLabel,
   FormMessage,
 } from '~/components/ui/form'
-import { FileUpload } from './file-upload'
 import { Input } from '~/components/ui/input'
+import { FileUpload } from './file-upload'
 
 type Props = {
   form: UseFormReturn<{
