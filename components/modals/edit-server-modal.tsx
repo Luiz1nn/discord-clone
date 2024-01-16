@@ -1,10 +1,11 @@
 'use client'
 
 import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import axios from 'axios'
-import { useModal } from '~/hooks/use-modal-store'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useModal } from '~/hooks/use-modal-store'
 
 import {
   Dialog,
@@ -26,7 +27,6 @@ import {
 } from '~/components/ui/form'
 import { useForm } from 'react-hook-form'
 import { FileUpload } from '~/components/file-upload'
-import { useRouter } from 'next/navigation'
 
 const formSchema = z.object({
   name: z.string().min(1, {
