@@ -1,13 +1,14 @@
 import { redirect } from 'next/navigation'
 import { db } from '~/lib/db'
 import { currentProfile } from '~/lib/current-profile'
+import { ChannelType, MemberRole } from '@prisma/client'
 
 import { ScrollArea } from '~/components/ui/scroll-area'
 import { Separator } from '~/components/ui/separator'
+import { Hash, Mic, ShieldCheck, Video } from 'lucide-react'
 import { ServerHeader } from './server-header'
 import { ServerSearch } from './server-search'
-import { ChannelType, MemberRole } from '@prisma/client'
-import { Hash, Mic, ShieldCheck, Video } from 'lucide-react'
+import { ServerSection } from './server-section'
 
 type Props = {
   serverId: string
@@ -118,18 +119,50 @@ export const ServerSidebar = async ({ serverId }: Props) => {
           />
         </div>
         <Separator className="bg-zinc-200 dark:bg-zinc-700 rounded-md my-2" />
-        <div className="mb-2">
-          ServerSection
-          <div className="space-y-[2px]">ServerChannel</div>
-        </div>
-        <div className="mb-2">
-          ServerSection
-          <div className="space-y-[2px]">ServerChannel</div>
-        </div>
-        <div className="mb-2">
-          ServerSection
-          <div className="space-y-[2px]">ServerChannel</div>
-        </div>
+        {!!textChannels?.length && (
+          <div className="mb-2">
+            <ServerSection
+              label="Text Channels"
+              sectionType="channels"
+              channelType={ChannelType.TEXT}
+              role={role}
+            />
+            <div className="space-y-[2px]">ServerChannel</div>
+          </div>
+        )}
+        {!!audioChannels?.length && (
+          <div className="mb-2">
+            <ServerSection
+              label="Voice Channels"
+              sectionType="channels"
+              channelType={ChannelType.AUDIO}
+              role={role}
+            />
+            <div className="space-y-[2px]">ServerChannel</div>
+          </div>
+        )}
+        {!!videoChannels?.length && (
+          <div className="mb-2">
+            <ServerSection
+              label="Video Channels"
+              sectionType="channels"
+              channelType={ChannelType.VIDEO}
+              role={role}
+            />
+            <div className="space-y-[2px]">ServerChannel</div>
+          </div>
+        )}
+        {!!members?.length && (
+          <div className="mb-2">
+            <ServerSection
+              label="Members"
+              sectionType="members"
+              server={server}
+              role={role}
+            />
+            <div className="space-y-[2px]">ServerMember</div>
+          </div>
+        )}
       </ScrollArea>
     </div>
   )
