@@ -10,6 +10,7 @@ import { ServerHeader } from './server-header'
 import { ServerSearch } from './server-search'
 import { ServerSection } from './server-section'
 import { ServerChannel } from './server-channel'
+import { ServerMember } from './server-member'
 
 type Props = {
   serverId: string
@@ -188,7 +189,11 @@ export const ServerSidebar = async ({ serverId }: Props) => {
               server={server}
               role={role}
             />
-            <div className="space-y-[2px]">ServerMember</div>
+            <div className="space-y-[2px]">
+              {members.map((member) => (
+                <ServerMember key={member.id} member={member} />
+              ))}
+            </div>
           </div>
         )}
       </ScrollArea>
