@@ -1,5 +1,7 @@
 import { Member } from '@prisma/client'
 
+import { ChatWelcome } from './chat-welcome'
+
 type Props = {
   name: string
   member: Member
@@ -26,6 +28,7 @@ export const ChatMessages = ({
   return (
     <div className="flex-1 flex flex-col py-4 overflow-y-auto">
       <div className="flex-1" />
+      <ChatWelcome name={name} type={type} />
     </div>
   )
 }

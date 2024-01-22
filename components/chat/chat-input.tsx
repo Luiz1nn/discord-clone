@@ -6,12 +6,12 @@ import { z } from 'zod'
 import qs from 'query-string'
 import axios from 'axios'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useModal } from '~/hooks/use-modal-store'
 
 import { Form, FormControl, FormField, FormItem } from '~/components/ui/form'
 import { Input } from '~/components/ui/input'
 import { EmojiPicker } from '~/components/emoji-picker'
 import { Plus } from 'lucide-react'
-import { useModal } from '~/hooks/use-modal-store'
 
 const formSchema = z.object({
   content: z.string().min(1),
@@ -72,7 +72,7 @@ export const ChatInput = ({ apiUrl, name, query, type }: Props) => {
                   </button>
                   <Input
                     disabled={isLoading}
-                    className="px-14 py-6 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 ocus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200"
+                    className="px-14 py-6 bg-zinc-200/90 dark:bg-zinc-700/75 border-none border-0 focus-visible:ring-0 focus-visible:ring-offset-0 text-zinc-600 dark:text-zinc-200"
                     placeholder={`Message ${
                       type === 'conversation' ? name : '#' + name
                     }`}
