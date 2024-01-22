@@ -6,6 +6,7 @@ import { db } from '~/lib/db'
 import { ChatHeader } from '~/components/chat/chat-header'
 import { ChannelType } from '@prisma/client'
 import { ChatInput } from '~/components/chat/chat-input'
+import { ChatMessages } from '~/components/chat/chat-messages'
 
 type Props = {
   params: {
@@ -44,7 +45,20 @@ const ChannelIdPage = async ({ params }: Props) => {
 
       {channel.type === ChannelType.TEXT && (
         <>
-          <div className="flex-1">Future Messages</div>
+          <ChatMessages
+            apiUrl="/api/messages"
+            chatId={channel.id}
+            member={member}
+            name={channel.name}
+            paramKey="channelId"
+            paramValue={channel.id}
+            socketQuery={{
+              channelId: channel.id,
+              serverId: channel.serverId,
+            }}
+            socketUrl="/api/socket/messages"
+            type="channel"
+          />
           <ChatInput
             name={channel.name}
             type="channel"
