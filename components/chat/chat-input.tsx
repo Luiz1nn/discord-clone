@@ -1,7 +1,10 @@
 'use client'
 
+import { useRouter } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
+import qs from 'query-string'
+import axios from 'axios'
 import { zodResolver } from '@hookform/resolvers/zod'
 
 import { Form, FormControl, FormField, FormItem } from '~/components/ui/form'
@@ -21,6 +24,8 @@ type Props = {
 }
 
 export const ChatInput = ({ apiUrl, name, query, type }: Props) => {
+  const router = useRouter()
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -30,9 +35,25 @@ export const ChatInput = ({ apiUrl, name, query, type }: Props) => {
 
   const isLoading = form.formState.isSubmitting
 
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    try {
+      const url = qs.stringifyUrl({
+        url: apiUrl,
+        query,
+      })
+
+      await axios.post(url, values)
+
+      form.reset()
+      router.refresh()
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   return (
     <Form {...form}>
-      <form>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <FormField
           control={form.control}
           name="content"
