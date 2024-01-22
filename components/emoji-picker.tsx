@@ -1,10 +1,37 @@
-import { Popover, PopoverTrigger } from './ui/popover'
+import { useTheme } from 'next-themes'
+
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '~/components/ui/popover'
+import Picker from '@emoji-mart/react'
+import data from '@emoji-mart/data'
 import { Smile } from 'lucide-react'
 
-export const EmojiPicker = () => (
-  <Popover>
-    <PopoverTrigger>
-      <Smile className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition" />
-    </PopoverTrigger>
-  </Popover>
-)
+type Props = {
+  onChange: (value: string) => void
+}
+
+export const EmojiPicker = ({ onChange }: Props) => {
+  const { resolvedTheme } = useTheme()
+
+  return (
+    <Popover>
+      <PopoverTrigger>
+        <Smile className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-600 dark:hover:text-zinc-300 transition" />
+      </PopoverTrigger>
+      <PopoverContent
+        side="right"
+        sideOffset={40}
+        className="bg-transparent border-none shadow-none drop-shadow mb-16"
+      >
+        <Picker
+          theme={resolvedTheme}
+          data={data}
+          onEmojiSelect={(emoji: any) => onChange(emoji.native)}
+        />
+      </PopoverContent>
+    </Popover>
+  )
+}

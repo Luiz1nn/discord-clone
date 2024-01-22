@@ -43,15 +43,18 @@ const ChannelIdPage = async ({ params }: Props) => {
       />
 
       {channel.type === ChannelType.TEXT && (
-        <ChatInput
-          name={channel.name}
-          type="channel"
-          apiUrl="/api/socket/messages"
-          query={{
-            channelId: channel.id,
-            serverId: channel.serverId,
-          }}
-        />
+        <>
+          <div className="flex-1">Future Messages</div>
+          <ChatInput
+            name={channel.name}
+            type="channel"
+            apiUrl="/api/socket/messages"
+            query={{
+              channelId: channel.id,
+              serverId: channel.serverId,
+            }}
+          />
+        </>
       )}
     </div>
   )
