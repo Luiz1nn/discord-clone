@@ -6,6 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 
 import { Form, FormControl, FormField, FormItem } from '~/components/ui/form'
 import { Input } from '~/components/ui/input'
+import { EmojiPicker } from '~/components/emoji-picker'
 import { Plus } from 'lucide-react'
 
 const formSchema = z.object({
@@ -53,6 +54,9 @@ export const ChatInput = ({ apiUrl, name, query, type }: Props) => {
                     }`}
                     {...field}
                   />
+                  <div className="absolute top-7 right-8">
+                    <EmojiPicker />
+                  </div>
                 </div>
               </FormControl>
             </FormItem>
