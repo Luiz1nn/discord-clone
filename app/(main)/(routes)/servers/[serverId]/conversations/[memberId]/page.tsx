@@ -5,6 +5,8 @@ import { db } from '~/lib/db'
 import { getOrCreateConversation } from '~/lib/conversation'
 
 import { ChatHeader } from '~/components/chat/chat-header'
+import { ChatMessages } from '~/components/chat/chat-messages'
+import { ChatInput } from '~/components/chat/chat-input'
 
 type Props = {
   params: {
@@ -52,6 +54,31 @@ const MemberIdPage = async ({ params, searchParams }: Props) => {
         serverId={params.serverId}
         type="conversation"
       />
+      {!searchParams.video && (
+        <>
+          <ChatMessages
+            member={currentMember}
+            name={otherMember.profile.name}
+            chatId={conversation.id}
+            type="conversation"
+            apiUrl="/api/direct-message"
+            paramKey="conversationId"
+            paramValue={conversation.id}
+            socketUrl="/api/socket/direct-message"
+            socketQuery={{
+              conversationId: conversation.id,
+            }}
+          />
+          <ChatInput
+            name={otherMember.profile.name}
+            type="conversation"
+            apiUrl="/api/socket/direct-message"
+            query={{
+              conversationId: conversation.id,
+            }}
+          />
+        </>
+      )}
     </div>
   )
 }
