@@ -2,21 +2,22 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
+import { useParams, useRouter } from 'next/navigation'
 import qs from 'query-string'
 import axios from 'axios'
 import { useForm } from 'react-hook-form'
 import { z } from 'zod'
 import { Member, MemberRole, Profile } from '@prisma/client'
+import { zodResolver } from '@hookform/resolvers/zod'
 import { cn } from '~/lib/utils'
+import { useModal } from '~/hooks/use-modal-store'
 
 import { UserAvatar } from '~/components/user-avatar'
 import { ActionTooltip } from '~/components/action-tolltip'
 import { Form, FormControl, FormField, FormItem } from '~/components/ui/form'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { Input } from '~/components/ui/input'
 import { Button } from '~/components/ui/button'
 import { Edit, FileIcon, ShieldAlert, ShieldCheck, Trash } from 'lucide-react'
-import { useModal } from '~/hooks/use-modal-store'
 
 const roleIconMap = {
   GUEST: null,
@@ -57,6 +58,14 @@ export const ChatItem = ({
 }: Props) => {
   const [isEditing, setIsEditing] = useState(false)
   const { onOpen } = useModal()
+  const params = useParams()
+  const router = useRouter()
+
+  const onMemberClick = () => {
+    if (member.id === currentMember.id) return
+
+    router.push(`/servers/${params?.serverId}/conversations/${member.id}`)
+  }
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -102,7 +111,10 @@ export const ChatItem = ({
   return (
     <div className="relative group flex items-center hover:bg-black/5 p-4 transition w-full">
       <div className="group flex gap-x-2 items-start w-full">
-        <div className="cursor-pointer hover:drop-shadow-md transition">
+        <div
+          onClick={onMemberClick}
+          className="cursor-pointer hover:drop-shadow-md transition"
+        >
           <UserAvatar src={member.profile.imageUrl} />
         </div>
         <div className="flex flex-col w-full">
